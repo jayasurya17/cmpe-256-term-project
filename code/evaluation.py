@@ -20,12 +20,11 @@ def get_recommendations(userGroups, row, recommendationMethod, topValueCount):
 	return position
 
 def evaluate_recommendation(recommendationMethod, topValueCount):
-	test_data = pd.read_csv("./test.csv")
+	test_data = pd.read_csv("../dataset/test.csv")
 	if topValueCount == -1:
 		topValueCount = len(test_data)
 	user_groups = test_data.groupby(['user_id'])
 	test_data['evaluation'] = test_data.apply(lambda x: get_recommendations(user_groups, x, recommendationMethod, topValueCount), axis = 1)
-	test_data.to_csv('similarity.csv', index = False)
 	counts = test_data['evaluation'].value_counts()
 	number_of_predictions = len(test_data) - counts[0] 
 	return {
